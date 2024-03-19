@@ -1,4 +1,5 @@
-images/
+static/
+image/
 .idea/
 datasets/
 checkpoints/
