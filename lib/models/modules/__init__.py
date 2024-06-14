@@ -2,8 +2,7 @@
 """
 @author   :   yykzjh    
 @Contact  :   1378453948@qq.com
-@DateTime :   2024/03/19 11:41
+@DateTime :   2024/06/14 14:12
 @Version  :   1.0
 @License  :   (C)Copyright 2024
 """
-from .CourtTrainer import CourtTrainer
