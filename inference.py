@@ -10,6 +10,7 @@ import os
 import cv2
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 
 import torch
 import torch.nn.functional as F
@@ -28,6 +29,7 @@ class CourtDetector(object):
         self.th = th
         self.opt = {
             "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
+            "in_channels": 3,
             "classes": self.classes,
             "resize_height": 384,
             "resize_width": 640,
@@ -74,7 +76,7 @@ class CourtDetector(object):
         return kps
 
 
-def inference_court(video_path=None, model_name="ResNet50_Revise", pretrain_path=r"./pretrain/best_ResNet50_Revise.pth", th=0.1):
+def inference_video_court(video_path=None, model_name="ResNet50_Revise", pretrain_path=r"./pretrain/best_ResNet50_Revise.pth", th=0.1):
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     # 加载视频
     video = cv2.VideoCapture(video_path)
@@ -127,9 +129,34 @@ def inference_court(video_path=None, model_name="ResNet50_Revise", pretrain_path
     print("跟踪网球场地线的平均用时为：{:.8f}".format(time_sum / time_cnt))
 
 
+
+def inference_images_court(images_dir=None, model_name="ResNet50_Revise", pretrain_path=r"./pretrain/best_ResNet50_Revise.pth", th=0.1):
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    # 初始化场地线检测器
+    court_detector = CourtDetector(model_name=model_name, pretrain_path=pretrain_path, th=th)
+
+    for image_name in os.listdir(images_dir):
+        image_path = os.path.join(images_dir, image_name)
+        frame = cv2.imread(image_path)
+        kps = court_detector.predict(frame.copy())
+        # 在当前帧画出球场关键点
+        new_frame = frame.copy()
+        for kp in kps:
+            cv2.circle(new_frame, (kp[1], kp[2]), 5, (0, 0, 255), -1)
+        new_frame = cv2.cvtColor(new_frame, cv2.COLOR_BGR2RGB)
+        plt.imshow(new_frame)
+        plt.show()
+
+
 if __name__ == '__main__':
-    # 推理球场关键点
-    inference_court(video_path=r"./static/video/video_input1.mp4",
-                    model_name="ResNet50_Revise",
-                    pretrain_path=r"./pretrain/best_ResNet50_Revise.pth",
-                    th=0.015)
+    # 推理视频中的球场关键点
+    # inference_video_court(video_path=r"./static/video/video_input3.mp4",
+    #                       model_name="MobileNetV2",
+    #                       pretrain_path=r"./pretrain/best_MobileNetV2.pth",
+    #                       th=0.01)
+
+    # 推理图像集的球场关键点
+    inference_images_court(images_dir=r"./datasets/court/images",
+                           model_name="MobileNetV2",
+                           pretrain_path=r"./pretrain/best_MobileNetV2.pth",
+                           th=0.01)
