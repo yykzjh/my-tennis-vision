@@ -88,3 +88,23 @@ def get_model_optimizer_lr_scheduler(opt):
             f"{opt['lr_scheduler_name']}是不支持的学习率调度器！")
 
     return model, optimizer, lr_scheduler
+
+
+def get_model(opt):
+    # 初始化网络模型
+    if opt["model_name"] == "ResNet50_Revise":
+        model = ResNet50Revise(out_channel=opt["classes"])
+
+    elif opt["model_name"] == "MobileNetV2":
+        model = MobileNetV2(in_channels=opt["in_channels"], out_channels=opt["classes"], input_size=opt["resize_height"], width_mult=1.)
+
+    else:
+        raise RuntimeError(f"{opt['model_name']}是不支持的网络模型！")
+
+    # 把模型放到GPU上
+    model = model.to(opt["device"])
+
+    # 随机初始化模型参数
+    utils.init_weights(model, init_type="kaiming")
+
+    return model

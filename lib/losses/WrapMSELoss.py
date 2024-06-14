@@ -44,7 +44,6 @@ class WrapMSELoss(nn.Module):
         assert c == self.classes, "通道维度不正确"
         # 将网络输出热力图转化为对数概率分布
         heatmap = F.sigmoid(pred)
-        heatmap = heatmap.view_as(pred)
         # 生成真实热力图
         batch_real_heatmap = torch.zeros((bs, c, h, w), device=pred.device)
         for b in range(bs):

@@ -118,7 +118,7 @@ params = {
 
     "metric_names": ["KPD"],  # 采用的评价指标，可选["KPD"]
 
-    "loss_function_name": "KLDivLoss",  # 损失函数名称，可选["KLDivLoss", "BCEWithLogitsLoss", "MSELoss"]
+    "loss_function_name": "MSELoss",  # 损失函数名称，可选["KLDivLoss", "BCEWithLogitsLoss", "MSELoss"]
 
     "class_weight": [0.1, 0.0307, 0.0307, 0.1, 0.0307, 0.0307, 0.0307, 0.1, 0.0307, 0.0307, 0.0307, 0.1,
                      0.0307, 0.0307, 0.0307, 0.1, 0.0307, 0.0307, 0.1],  # 各类别计算损失值的加权权重
@@ -132,13 +132,13 @@ params = {
     "run_dir": r"./runs",  # 运行时产生的各类文件的存储根目录
 
     "start_epoch": 1,  # 训练时的起始epoch
-    "end_epoch": 2000,  # 训练时的结束epoch
+    "end_epoch": 500,  # 训练时的结束epoch
 
     "best_metric": 1.0,  # 保存检查点的初始条件
 
     "terminal_show_freq": 2,  # 终端打印统计信息的频率,以step为单位
 
-    "save_epoch_freq": 500,  # 每多少个epoch保存一次训练状态和模型参数
+    "save_epoch_freq": 100,  # 每多少个epoch保存一次训练状态和模型参数
 }
 
 

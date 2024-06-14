@@ -314,7 +314,7 @@ class CourtTrainer:
                 raise RuntimeError("继续训练必须指定预训练模型参数")
 
             # 加载训练状态字典
-            resume_state_dict = torch.load(self.opt["resume"], map_location=lambda storage, loc: storage.cuda(self.device))
+            resume_state_dict = torch.load(self.opt["resume"], map_location=self.device)
             # 加载当前epoch
             self.start_epoch = resume_state_dict["epoch"] + 1
             # 加载当前最优评价指标
