@@ -13,6 +13,10 @@ import threading
 from tqdm import tqdm
 import shutil
 
+import torch
+
+from lib import utils, models
+
 
 class TennisBallDatasetTransformer(object):
     def __init__(self, root_dir):
@@ -85,8 +89,50 @@ class TennisBallDatasetTransformer(object):
             t.join()
 
 
-if __name__ == '__main__':
-    # 转换原生的网球关键点数据集
-    tennis_ball_dataset_transformer = TennisBallDatasetTransformer(r"./datasets/tennis_ball")
-    tennis_ball_dataset_transformer.run()
+def export_court_model(model_name=None, weight_path=None):
+    # 一些参数
+    opt = {
+        "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
+        "in_channels": 3,
+        "classes": 19,
+        "resize_height": 384,
+        "resize_width": 640,
+        "normalize_mean": (0.485, 0.456, 0.406),
+        "normalize_std": (0.229, 0.224, 0.225),
+        "model_name": model_name
+    }
+    # 加载模型和权重
+    pretrain_state_dict = torch.load(weight_path, map_location=opt["device"])
+    model = models.get_model(opt)
+    model.load_state_dict(pretrain_state_dict, strict=True)
+    model.eval()
+    # 获取导出onnx目录
+    onnx_dir = os.path.join(os.path.dirname(weight_path), "onnx")
+    # 获取文件名
+    pth_filename = os.path.basename(weight_path)
+    pth_basename, _ = os.path.splitext(pth_filename)
+    # 获取导出onnx文件目录
+    onnx_path = os.path.join(onnx_dir, pth_basename + ".onnx")
+    print(onnx_path)
 
+    dummy_input = torch.randn(1, 3, opt["resize_height"], opt["resize_width"]).to(opt["device"])
+    model(dummy_input)
+    im = torch.zeros(1, 3, opt["resize_height"], opt["resize_width"]).to(opt["device"])
+    torch.onnx.export(model, im,
+                      onnx_path,
+                      verbose=False,
+                      opset_version=12,
+                      training=torch.onnx.TrainingMode.EVAL,
+                      do_constant_folding=True,
+                      input_names=['input'],
+                      output_names=['output'],
+                      )
+
+
+if __name__ == '__main__':
+    # # 转换原生的网球关键点数据集
+    # tennis_ball_dataset_transformer = TennisBallDatasetTransformer(r"./datasets/tennis_ball")
+    # tennis_ball_dataset_transformer.run()
+
+    # 将球场关键点模型导出为onnx
+    export_court_model(model_name="MobileNetV2", weight_path=r"./pretrain/court/best_MobileNetV2_BCEWithLogitsLoss_0.001557.pth")
