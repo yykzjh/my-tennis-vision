@@ -150,13 +150,13 @@ def inference_images_court(images_dir=None, model_name="ResNet50_Revise", pretra
 
 if __name__ == '__main__':
     # 推理视频中的球场关键点
-    # inference_video_court(video_path=r"./static/video/video_input3.mp4",
-    #                       model_name="MobileNetV2",
-    #                       pretrain_path=r"./pretrain/best_MobileNetV2.pth",
-    #                       th=0.01)
+    inference_video_court(video_path=r"./static/video/video_input1.mp4",
+                          model_name="MobileNetV2",
+                          pretrain_path=r"./pretrain/best_MobileNetV2_BCEWithLogitsLoss_0.001557.pth",
+                          th=0.01)
 
     # 推理图像集的球场关键点
-    inference_images_court(images_dir=r"./datasets/court/images",
-                           model_name="MobileNetV2",
-                           pretrain_path=r"./pretrain/best_MobileNetV2.pth",
-                           th=0.01)
+    # inference_images_court(images_dir=r"./datasets/court/images",
+    #                        model_name="MobileNetV2",
+    #                        pretrain_path=r"./pretrain/best_MobileNetV2.pth",
+    #                        th=0.01)
