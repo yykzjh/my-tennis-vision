@@ -7,3 +7,4 @@
 @License  :   (C)Copyright 2024
 """
 from .CourtTrainer import CourtTrainer
+from .TennisBallTrainer import TennisBallTrainer
