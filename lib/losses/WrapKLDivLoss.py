@@ -18,7 +18,7 @@ class WrapKLDivLoss(nn.Module):
         self.classes = classes
         self.weight = weight
         self.size = size
-        self.loss_function = nn.KLDivLoss(reduction='mean')
+        self.loss_function = nn.KLDivLoss(reduction='batchmean')
 
     @staticmethod
     def _generate_gaussian_heatmap(size, center, sigma):
