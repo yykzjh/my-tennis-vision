@@ -85,7 +85,7 @@ class TennisBallDataset(Dataset):
     def _load_label(label_path):
         # 读取标签文件
         labels = open(label_path, "r").readlines()
-        labels = list(map(lambda x: x.strip().split(" "), labels))
+        labels = list(map(lambda x: x.strip().split("  "), labels))
         kps = []
         # 遍历每个标签
         for lbs in labels:
