@@ -65,7 +65,7 @@ params = {
 
     "dataset_path": r"./datasets/tennis_ball",  # 数据集路径
 
-    "batch_size": 4,  # batch_size大小
+    "batch_size": 8,  # batch_size大小
 
     "num_workers": 2,  # num_workers大小
 
@@ -85,7 +85,7 @@ params = {
 
     "optimizer_name": "AdamW",  # 优化器名称，可选["SGD", "Adagrad", "RMSprop", "Adam", "AdamW", "Adamax", "Adadelta"]
 
-    "learning_rate": 0.00001,  # 学习率
+    "learning_rate": 0.0001,  # 学习率
 
     "weight_decay": 0.000001,  # 权重衰减系数,即更新网络参数时的L2正则化项的系数
 
@@ -135,7 +135,7 @@ params = {
 
     "best_metric": 1.0,  # 保存检查点的初始条件
 
-    "terminal_show_freq": 4000,  # 终端打印统计信息的频率,以step为单位
+    "terminal_show_freq": 1000,  # 终端打印统计信息的频率,以step为单位
 
     "save_epoch_freq": 25,  # 每多少个epoch保存一次训练状态和模型参数
 }
