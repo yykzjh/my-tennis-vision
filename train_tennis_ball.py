@@ -85,7 +85,7 @@ params = {
 
     "optimizer_name": "AdamW",  # 优化器名称，可选["SGD", "Adagrad", "RMSprop", "Adam", "AdamW", "Adamax", "Adadelta"]
 
-    "learning_rate": 0.0001,  # 学习率
+    "learning_rate": 0.001,  # 学习率
 
     "weight_decay": 0.000001,  # 权重衰减系数,即更新网络参数时的L2正则化项的系数
 
@@ -131,13 +131,13 @@ params = {
     "run_dir": r"./runs",  # 运行时产生的各类文件的存储根目录
 
     "start_epoch": 1,  # 训练时的起始epoch
-    "end_epoch": 100,  # 训练时的结束epoch
+    "end_epoch": 200,  # 训练时的结束epoch
 
     "best_metric": 1.0,  # 保存检查点的初始条件
 
-    "terminal_show_freq": 1000,  # 终端打印统计信息的频率,以step为单位
+    "terminal_show_freq": 128,  # 终端打印统计信息的频率,以step为单位
 
-    "save_epoch_freq": 25,  # 每多少个epoch保存一次训练状态和模型参数
+    "save_epoch_freq": 50,  # 每多少个epoch保存一次训练状态和模型参数
 }
 
 

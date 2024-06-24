@@ -8,6 +8,7 @@
 """
 import os
 import glob
+import random
 
 import cv2
 import numpy as np
@@ -59,6 +60,14 @@ class TennisBallDataset(Dataset):
         # 读取数据集图像列表
         self.images_path_list = sorted(glob.glob(os.path.join(self.root_dir, "images", "*.jpg")))
         self.labels_path_list = sorted(glob.glob(os.path.join(self.root_dir, "labels", "*.txt")))
+
+        # 随机选择一部分
+        if self.mode == "train":
+            self.images_path_list = random.sample(self.images_path_list, 4096)
+            self.labels_path_list = [image_path.replace("images", "labels").replace(".jpg", ".txt") for image_path in self.images_path_list]
+        else:
+            self.images_path_list = random.sample(self.images_path_list, 512)
+            self.labels_path_list = [image_path.replace("images", "labels").replace(".jpg", ".txt") for image_path in self.images_path_list]
 
     def __len__(self):
         return len(self.images_path_list)
