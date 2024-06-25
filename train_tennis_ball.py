@@ -39,20 +39,20 @@ params = {
     # ——————————————————————————————————————————————    数据增强    ——————————————————————————————————————————————————————
 
     # 数据增强概率
-    "p": 0.5,
+    "p": 0.3,
 
     # RandomResizedCrop
     "resize_width": 640,
     "resize_height": 384,
-    "resize_scale": (0.8, 1.0),
+    "resize_scale": (0.99, 1.0),
 
     # Perspective
     "perspective_scale": (0.05, 0.1),
 
     # ColorJitter
-    "brightness": (0.6, 1),
-    "contrast": (0.6, 1),
-    "saturation": (0.6, 1),
+    "brightness": (0.8, 1),
+    "contrast": (0.8, 1),
+    "saturation": (0.8, 1),
     "hue": (-0.5, 0.5),
 
     # 标准化均值
